@@ -21,12 +21,29 @@ public class IngredientController {
         return ResponseEntity.ok(createdIngredient);
     }
 
-    @GetMapping
-    public ResponseEntity<Ingredient> getIngredient(@PathVariable Long ingredientNumber) {
-        Ingredient ingredient = ingredientService.getIngredient(ingredientNumber);
+    @GetMapping("/{id}")
+    public ResponseEntity<Ingredient> getIngredient(@PathVariable Long id) {
+        Ingredient ingredient = ingredientService.getIngredient(id);
         if (ingredient == null) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(ingredient);
+    }
+
+    @PutMapping("/edit/{id}")
+    public ResponseEntity<Ingredient> editIngredient(@PathVariable long id, @RequestBody Ingredient ingredient) {
+        Ingredient editIngredient = ingredientService.editIngredient(id, ingredient);
+        if (ingredient == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(ingredient);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Ingredient> deleteIngredient(@PathVariable long id) {
+        if (ingredientService.deleteIngredient(id)) {
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.notFound().build();
     }
 }

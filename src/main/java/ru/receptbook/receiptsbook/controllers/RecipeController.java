@@ -5,6 +5,8 @@ import org.springframework.web.bind.annotation.*;
 import ru.receptbook.receiptsbook.model.Recipe;
 import ru.receptbook.receiptsbook.services.Impl.RecipeService;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/recipe")
 public class RecipeController {
@@ -22,12 +24,31 @@ public class RecipeController {
 
     }
 
-    @GetMapping
-    public ResponseEntity<Recipe> getRecipe(@PathVariable long recipeNumber) {
-        Recipe recipe = recipeService.getRecipe(recipeNumber);
+    @GetMapping("/{id}")
+    public ResponseEntity<Recipe> getRecipe(@PathVariable Long id) {
+        Recipe recipe = recipeService.getRecipe(id);
+        if (recipe == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(recipe);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Recipe> deleteRecipe(@PathVariable long id) {
+        if (recipeService.deleteRecipe(id)) {
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    @PutMapping("/edit/{id}")
+    public ResponseEntity<Recipe> editRecipes(@PathVariable long id, @RequestBody Recipe recipe) {
+        Recipe editRecipe = recipeService.editRecipe(id, recipe);
         if (recipe == null) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(recipe);
     }
 }
+
+
