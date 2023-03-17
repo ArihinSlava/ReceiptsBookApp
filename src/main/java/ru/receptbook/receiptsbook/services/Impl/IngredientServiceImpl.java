@@ -3,6 +3,7 @@ package ru.receptbook.receiptsbook.services.Impl;
 import org.springframework.stereotype.Service;
 import ru.receptbook.receiptsbook.model.Ingredient;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,35 +24,26 @@ public class IngredientServiceImpl implements IngredientService {
     }
 
     @Override
-    public boolean deleteRecipe(long id) {
-        for (int i = 0; i < ingredients.size(); i++) {
-            if (ingredients.containsKey(id)) {
-                ingredients.remove(id);
-                return true;
-            }
-        }
-        return false;
-    }
-
-    @Override
     public Ingredient editIngredient(long id, Ingredient ingredient) {
-        for (int i = 0; i < ingredients.size(); i++) {
             if (ingredients.containsKey(id)) {
                 ingredients.put(id, ingredient);
                 return ingredient;
             }
-        }
         return null;
     }
 
     @Override
     public boolean deleteIngredient(long id) {
-        for (int i = 0; i < ingredients.size(); i++) {
-            if (ingredients.containsKey(id)) {
+        if (ingredients.containsKey(id)) {
                 ingredients.remove(id);
                 return true;
             }
-        }
         return false;
     }
+
+    @Override
+    public Collection<Ingredient> getIngredient() {
+        return ingredients.values();
+    }
+
 }

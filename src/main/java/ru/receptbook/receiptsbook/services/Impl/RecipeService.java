@@ -2,6 +2,7 @@ package ru.receptbook.receiptsbook.services.Impl;
 
 import ru.receptbook.receiptsbook.model.Recipe;
 
+import java.util.Collection;
 import java.util.List;
 
 public interface RecipeService {
@@ -10,7 +11,10 @@ public interface RecipeService {
 
     Recipe getRecipe(long recipeNumber);
 
-    boolean deleteRecipe(long id);
+    Recipe deleteRecipe(long id);
 
     Recipe editRecipe(long id, Recipe recipe);
+
+    Collection<Recipe> getRecipes();
+
 }

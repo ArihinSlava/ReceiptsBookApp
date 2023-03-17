@@ -3,7 +3,10 @@ package ru.receptbook.receiptsbook.controllers;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.receptbook.receiptsbook.model.Ingredient;
+import ru.receptbook.receiptsbook.model.Recipe;
 import ru.receptbook.receiptsbook.services.Impl.IngredientService;
+
+import java.util.Collection;
 
 @RestController
 @RequestMapping("/ingredient")
@@ -30,7 +33,7 @@ public class IngredientController {
         return ResponseEntity.ok(ingredient);
     }
 
-    @PutMapping("/edit/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<Ingredient> editIngredient(@PathVariable long id, @RequestBody Ingredient ingredient) {
         Ingredient editIngredient = ingredientService.editIngredient(id, ingredient);
         if (ingredient == null) {
@@ -45,5 +48,10 @@ public class IngredientController {
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.notFound().build();
+    }
+
+    @GetMapping("/{id}")
+    public Collection<Ingredient> getAllIngredients()  {
+        return ingredientService.getIngredient();
     }
 }

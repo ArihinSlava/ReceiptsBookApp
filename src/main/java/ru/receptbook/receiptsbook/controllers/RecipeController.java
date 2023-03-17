@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.receptbook.receiptsbook.model.Recipe;
 import ru.receptbook.receiptsbook.services.Impl.RecipeService;
 
+import java.util.Collection;
 import java.util.List;
 
 @RestController
@@ -35,19 +36,25 @@ public class RecipeController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Recipe> deleteRecipe(@PathVariable long id) {
-        if (recipeService.deleteRecipe(id)) {
-            return ResponseEntity.ok().build();
+        Recipe recipe = recipeService.getRecipe(id);
+        if (recipe == null) {
+            return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(recipe);
     }
 
-    @PutMapping("/edit/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<Recipe> editRecipes(@PathVariable long id, @RequestBody Recipe recipe) {
         Recipe editRecipe = recipeService.editRecipe(id, recipe);
         if (recipe == null) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(recipe);
+    }
+
+    @GetMapping("/{id}")
+    public Collection<Recipe> getAllRecipes() {
+        return recipeService.getRecipes();
     }
 }
 
