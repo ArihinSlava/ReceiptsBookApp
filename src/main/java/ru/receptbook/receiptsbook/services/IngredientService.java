@@ -1,4 +1,4 @@
-package ru.receptbook.receiptsbook.services.Impl;
+package ru.receptbook.receiptsbook.services;
 
 import ru.receptbook.receiptsbook.model.Ingredient;
 

@@ -10,10 +10,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.receptbook.receiptsbook.model.Recipe;
-import ru.receptbook.receiptsbook.services.Impl.RecipeService;
+import ru.receptbook.receiptsbook.services.RecipeService;
 
 import java.util.Collection;
-import java.util.List;
 
 @RestController
 @RequestMapping("/recipe")

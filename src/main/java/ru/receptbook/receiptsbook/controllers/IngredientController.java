@@ -10,8 +10,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.receptbook.receiptsbook.model.Ingredient;
-import ru.receptbook.receiptsbook.model.Recipe;
-import ru.receptbook.receiptsbook.services.Impl.IngredientService;
+import ru.receptbook.receiptsbook.services.IngredientService;
 
 import java.util.Collection;
 
@@ -20,7 +19,7 @@ import java.util.Collection;
 @Tag(name = "Ингредиенты", description = "CRUD- операции для работы с ингредиентам из книги рецептов")
 public class IngredientController {
 
-    private IngredientService ingredientService;
+    private final IngredientService ingredientService;
 
     public IngredientController(IngredientService ingredientService) {
         this.ingredientService = ingredientService;
