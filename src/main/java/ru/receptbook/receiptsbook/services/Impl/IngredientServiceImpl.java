@@ -30,6 +30,7 @@ public class IngredientServiceImpl implements IngredientService {
     @Override
     public Ingredient addIngredient(Ingredient ingredient) {
         ingredients.putIfAbsent(id++, ingredient);
+        saveToFile();
         return ingredient;
     }
 
@@ -60,6 +61,7 @@ public class IngredientServiceImpl implements IngredientService {
     public boolean deleteIngredient(long id) {
         if (ingredients.containsKey(id)) {
                 ingredients.remove(id);
+                saveToFile();
                 return true;
             }
         return false;

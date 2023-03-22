@@ -38,6 +38,7 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     public Recipe addRecipe(Recipe recipe) {
         recipes.putIfAbsent(id++, recipe);
+        saveToFile();
         return recipe;
     }
 
@@ -49,6 +50,7 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public Recipe deleteRecipe(long id) {
+        saveToFile();
         return recipes.remove(id);
     }
 
