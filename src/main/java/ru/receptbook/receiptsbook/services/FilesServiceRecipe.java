@@ -8,4 +8,6 @@ public interface FilesServiceRecipe {
     String readFromFile();
 
     File getDataFile();
+
+    boolean cleanDataFile();
 }

@@ -43,7 +43,8 @@ public class FileServiceRecipeImpl implements FilesServiceRecipe {
         return new File(recipeFilePath + "/" + recipeFileName);
     }
 
-    private boolean cleanDataFile() {
+    @Override
+    public boolean cleanDataFile() {
         try {
             Path path = Path.of(recipeFilePath, recipeFileName);
             Files.deleteIfExists(path);
