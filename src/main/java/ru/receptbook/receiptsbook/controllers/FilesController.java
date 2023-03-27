@@ -1,6 +1,8 @@
 package ru.receptbook.receiptsbook.controllers;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.commons.io.IOUtils;
 import org.springframework.core.io.InputStreamResource;
@@ -15,6 +17,8 @@ import ru.receptbook.receiptsbook.services.FilesServiceRecipe;
 import ru.receptbook.receiptsbook.services.RecipeService;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 @RestController
 @RequestMapping("/files")
@@ -44,6 +48,42 @@ public class FilesController {
                     .body(resource);
         } else {
             return ResponseEntity.noContent().build();
+        }
+    }
+
+    @GetMapping(value = "/export/report")
+    @Operation(summary = " Экспорт файла рецептов в формате .txt")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200", description = "Всё хорошо, запрос выполнился."
+            ),
+            @ApiResponse(
+                    responseCode = "400", description = "Есть ошибка в параметрах запроса"
+            ),
+            @ApiResponse(
+                    responseCode = "404", description = "URL неверный или такого действия нет в веб-приложении."
+            ),
+            @ApiResponse(
+                    responseCode = "500", description = "Во время выполнения запроса произошла ошибка на сервере."
+            )
+    }
+    )
+    public ResponseEntity<Object> downloadFileTxt() {
+        try {
+            Path path = recipeService.createTxt();
+            if (Files.size(path) == 0) {
+                return ResponseEntity.noContent().build();
+            }
+
+                InputStreamResource resource = new InputStreamResource(new FileInputStream(path.toFile()));
+                return ResponseEntity.ok()
+                        .contentType(MediaType.TEXT_PLAIN)
+                        .contentLength(Files.size(path))
+                        .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"report.txt\"")
+                        .body(resource);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().body(e.toString());
         }
     }
 

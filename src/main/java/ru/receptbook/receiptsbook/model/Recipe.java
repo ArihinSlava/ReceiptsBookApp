@@ -18,4 +18,11 @@ public class Recipe {
     private List<Ingredient> ingredients = new ArrayList<>();
     private List<String> cookingSteps = new ArrayList<>();
 
+    @Override
+    public String toString() {
+        return name + "\n" +
+                "Время приготовления:" + cookingTime + "\n" +
+                "Ингридиенты: \n" + ingredients + "\n" +
+                "Инструкция приготовления \n" + cookingSteps + "\n" + "\n";
+    }
 }

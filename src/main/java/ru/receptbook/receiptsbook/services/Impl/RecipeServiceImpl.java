@@ -10,6 +10,11 @@ import ru.receptbook.receiptsbook.services.RecipeService;
 
 import javax.annotation.PostConstruct;
 import java.io.File;
+import java.io.IOException;
+import java.io.Writer;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -73,6 +78,18 @@ public class RecipeServiceImpl implements RecipeService {
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public Path createTxt() throws IOException {
+        Path path = fileService.createTempFile("report");
+        for (Recipe recipe : recipes.values()) {
+            try (Writer writer = Files.newBufferedWriter(path, StandardOpenOption.APPEND)) {
+                writer.append(recipe.toString());
+                writer.append("\n");
+            }
+        }
+        return path;
     }
 
 
